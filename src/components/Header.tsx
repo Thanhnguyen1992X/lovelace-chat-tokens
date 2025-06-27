@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { MessageCircle, CreditCard, Info, LogIn, UserPlus, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import TokenDisplay from '@/components/TokenDisplay';
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -23,7 +24,12 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <h1 className="text-xl font-semibold text-white">ChatApp</h1>
+            <h1 
+              className="text-xl font-semibold text-white cursor-pointer hover:text-blue-400 transition-colors"
+              onClick={() => navigate('/')}
+            >
+              ChatApp
+            </h1>
           </div>
           
           <nav className="flex items-center space-x-2">
@@ -58,15 +64,18 @@ const Header = () => {
             </Button>
             
             {user ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleSignOut}
-                className="text-slate-300 hover:text-white hover:bg-slate-800"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sign Out
-              </Button>
+              <>
+                <TokenDisplay />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="text-slate-300 hover:text-white hover:bg-slate-800"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
             ) : (
               <>
                 <Button

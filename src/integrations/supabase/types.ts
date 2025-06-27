@@ -123,27 +123,72 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          amount_paid: number | null
+          created_at: string | null
+          id: string
+          status: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          tokens_purchased: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_paid?: number | null
+          created_at?: string | null
+          id?: string
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tokens_purchased?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number | null
+          created_at?: string | null
+          id?: string
+          status?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tokens_purchased?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_profiles: {
         Row: {
           created_at: string | null
           daily_tokens_reset: string | null
           id: string
           subscription_active: boolean | null
+          subscription_tokens: number | null
           tokens: number | null
+          tokens_last_reset: string | null
+          tokens_remaining: number | null
         }
         Insert: {
           created_at?: string | null
           daily_tokens_reset?: string | null
           id: string
           subscription_active?: boolean | null
+          subscription_tokens?: number | null
           tokens?: number | null
+          tokens_last_reset?: string | null
+          tokens_remaining?: number | null
         }
         Update: {
           created_at?: string | null
           daily_tokens_reset?: string | null
           id?: string
           subscription_active?: boolean | null
+          subscription_tokens?: number | null
           tokens?: number | null
+          tokens_last_reset?: string | null
+          tokens_remaining?: number | null
         }
         Relationships: []
       }
@@ -152,7 +197,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      reset_daily_tokens: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

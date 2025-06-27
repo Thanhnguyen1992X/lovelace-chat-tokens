@@ -34,6 +34,9 @@ const Register = () => {
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`
+        }
       });
 
       if (error) {
@@ -66,7 +69,7 @@ const Register = () => {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-white">Create Account</CardTitle>
           <CardDescription className="text-slate-400">
-            Join us to start chatting
+            Join us to start chatting with AI
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -91,8 +94,9 @@ const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                minLength={6}
                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
-                placeholder="Enter your password"
+                placeholder="Enter your password (min 6 characters)"
               />
             </div>
             <div className="space-y-2">
