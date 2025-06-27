@@ -2,13 +2,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Send, Mic, MicOff, Loader2, Phone, PhoneOff } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import Header from '@/components/Header';
+import ChatHeader from '@/components/ChatHeader';
+import VoiceChatSection from '@/components/VoiceChatSection';
+import MessageList from '@/components/MessageList';
+import ChatInput from '@/components/ChatInput';
+import SubscriptionModal from '@/components/SubscriptionModal';
 
 interface Message {
   id: string;
@@ -16,13 +18,6 @@ interface Message {
   response: string | null;
   created_at: string;
   isUser: boolean;
-}
-
-// Declare the ElevenLabs widget interface
-declare global {
-  interface Window {
-    ElevenLabsConvAI?: any;
-  }
 }
 
 const Chat = () => {
@@ -57,7 +52,6 @@ const Chat = () => {
   }, [messages]);
 
   const loadElevenLabsWidget = () => {
-    // Load ElevenLabs widget script if not already loaded
     if (!document.getElementById('elevenlabs-script')) {
       const script = document.createElement('script');
       script.id = 'elevenlabs-script';
@@ -154,7 +148,6 @@ const Chat = () => {
     const userMessage = inputMessage.trim();
     setInputMessage('');
 
-    // Add user message to UI immediately
     const userMsg: Message = {
       id: Date.now() + '_user',
       message: userMessage,
@@ -165,7 +158,6 @@ const Chat = () => {
     setMessages(prev => [...prev, userMsg]);
 
     try {
-      // Send message to webhook
       const webhookResponse = await fetch('https://ll2-intern.tail5b20ee.ts.net/webhook/3ca466e9-0153-4475-aca4-fccb7edd7571', {
         method: 'POST',
         headers: {
@@ -184,7 +176,6 @@ const Chat = () => {
         aiResponse = responseData.response || aiResponse;
       }
 
-      // Save message to database
       const { data, error } = await supabase
         .from('chat_messages')
         .insert({
@@ -198,7 +189,6 @@ const Chat = () => {
 
       if (error) throw error;
 
-      // Add AI response to UI
       const aiMsg: Message = {
         id: Date.now() + '_ai',
         message: aiResponse,
@@ -208,7 +198,6 @@ const Chat = () => {
       };
       setMessages(prev => [...prev, aiMsg]);
 
-      // Update tokens
       await updateUserTokens(tokens - 5);
 
       toast({
@@ -249,8 +238,6 @@ const Chat = () => {
     }
 
     setIsVoiceChatActive(true);
-    
-    // Deduct 10 tokens for voice chat session
     await updateUserTokens(tokens - 10);
     
     toast({
@@ -278,162 +265,31 @@ const Chat = () => {
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
       <Header />
-      
-      {/* Chat Header */}
-      <div className="bg-slate-900/50 backdrop-blur-lg border-b border-slate-800 p-4">
-        <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold text-white">AI Chat</h1>
-          <div className="flex items-center space-x-4">
-            <div className="text-sm text-slate-300">
-              Tokens: <span className="text-blue-400 font-semibold">{tokens}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Voice Chat Widget Section */}
-      <div className="bg-slate-900/30 backdrop-blur-sm border-b border-slate-800 p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-medium text-white">Voice AI Assistant</h2>
-            <div className="flex items-center space-x-2">
-              {!isVoiceChatActive ? (
-                <Button
-                  onClick={startVoiceChat}
-                  disabled={tokens < 10}
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                >
-                  <Phone className="w-4 h-4 mr-2" />
-                  Start Voice Chat (10 tokens)
-                </Button>
-              ) : (
-                <Button
-                  onClick={endVoiceChat}
-                  className="bg-red-600 hover:bg-red-700 text-white"
-                >
-                  <PhoneOff className="w-4 h-4 mr-2" />
-                  End Voice Chat
-                </Button>
-              )}
-            </div>
-          </div>
-          
-          {/* ElevenLabs Widget Container */}
-          <div className="bg-slate-800/50 rounded-lg p-4 min-h-[200px] flex items-center justify-center">
-            {isVoiceChatActive ? (
-              <div id="elevenlabs-widget">
-                <elevenlabs-convai agent-id="agent_01jyqs3tpgfrf8ahjzx9xarjg2"></elevenlabs-convai>
-              </div>
-            ) : (
-              <div className="text-center text-slate-400">
-                <Phone className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                <p>Click "Start Voice Chat" to begin conversation</p>
-                <p className="text-sm mt-1">Cost: 10 tokens per session</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="max-w-4xl mx-auto space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
-            >
-              <Card className={`max-w-[80%] p-4 ${
-                message.isUser
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-800 text-slate-100'
-              }`}>
-                <p className="text-sm leading-relaxed">{message.message}</p>
-              </Card>
-            </div>
-          ))}
-          {isLoading && (
-            <div className="flex justify-start">
-              <Card className="max-w-[80%] p-4 bg-slate-800">
-                <div className="flex items-center space-x-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
-                  <span className="text-slate-400 text-sm">AI is typing...</span>
-                </div>
-              </Card>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
-
-      {/* Input Area */}
-      <div className="bg-slate-900/50 backdrop-blur-lg border-t border-slate-800 p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleRecording}
-              className={`border-slate-600 ${
-                isRecording
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-            </Button>
-            <Input
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
-              className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
-              disabled={isLoading}
-            />
-            <Button
-              onClick={sendMessage}
-              disabled={isLoading || !inputMessage.trim()}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              {isLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Send className="w-4 h-4" />
-              )}
-            </Button>
-          </div>
-          <div className="text-xs text-slate-500 mt-2 text-center">
-            Text messages: 5 tokens • Voice chat: 10 tokens per session
-          </div>
-        </div>
-      </div>
-
-      {/* Subscription Modal */}
-      {showSubscriptionModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <Card className="bg-slate-900 border-slate-800 p-6 max-w-md w-full">
-            <h3 className="text-xl font-semibold text-white mb-4">Out of Tokens</h3>
-            <p className="text-slate-300 mb-6">
-              You've run out of tokens. Purchase more tokens to continue chatting.
-            </p>
-            <div className="flex space-x-3">
-              <Button
-                onClick={() => navigate('/purchase')}
-                className="flex-1 bg-blue-600 hover:bg-blue-700"
-              >
-                Purchase Tokens
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => setShowSubscriptionModal(false)}
-                className="flex-1 border-slate-600 text-slate-300 hover:text-white"
-              >
-                Cancel
-              </Button>
-            </div>
-          </Card>
-        </div>
-      )}
+      <ChatHeader tokens={tokens} />
+      <VoiceChatSection
+        isVoiceChatActive={isVoiceChatActive}
+        tokens={tokens}
+        onStartVoiceChat={startVoiceChat}
+        onEndVoiceChat={endVoiceChat}
+      />
+      <MessageList
+        messages={messages}
+        isLoading={isLoading}
+        messagesEndRef={messagesEndRef}
+      />
+      <ChatInput
+        inputMessage={inputMessage}
+        setInputMessage={setInputMessage}
+        onSendMessage={sendMessage}
+        onKeyPress={handleKeyPress}
+        isLoading={isLoading}
+        isRecording={isRecording}
+        onToggleRecording={toggleRecording}
+      />
+      <SubscriptionModal
+        show={showSubscriptionModal}
+        onClose={() => setShowSubscriptionModal(false)}
+      />
     </div>
   );
 };
