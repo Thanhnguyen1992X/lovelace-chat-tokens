@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircle, Zap, Shield, Headphones, Brain, Smartphone } from 'lucide-react';
+import { MessageCircle, Zap, Shield, Headphones, Brain, Smartphone, MoreHorizontal, TrendingUp } from 'lucide-react';
 import Header from '@/components/Header';
 
 const About = () => {
@@ -63,6 +63,90 @@ const About = () => {
           >
             Start Chatting Now
           </Button>
+        </div>
+
+        {/* DuPont Analysis Section */}
+        <div className="mb-16">
+          <Card className="bg-slate-900 border-slate-800 max-w-4xl mx-auto">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <TrendingUp className="w-6 h-6 text-blue-400" />
+                <CardTitle className="text-xl text-white">Phân tích DuPont</CardTitle>
+              </div>
+              <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white">
+                <MoreHorizontal className="w-5 h-5" />
+              </Button>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center">
+                {/* ROE Section */}
+                <div className="text-center mb-6">
+                  <div className="text-sm font-medium text-slate-300">ROE</div>
+                  <div className="text-2xl font-bold text-blue-400">22.5%</div>
+                </div>
+                
+                {/* Separator */}
+                <div className="flex items-center justify-center w-full mb-6">
+                  <div className="w-1/3 h-px bg-slate-700"></div>
+                  <div className="mx-3 text-slate-500 font-medium">×</div>
+                  <div className="w-1/3 h-px bg-slate-700"></div>
+                </div>
+
+                {/* Main Metrics */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6 w-full max-w-2xl">
+                  <div className="text-center bg-slate-800/50 rounded-lg p-4">
+                    <div className="text-sm font-medium text-slate-300 mb-2">Net Profit Margin</div>
+                    <div className="text-xl font-bold text-green-400 mb-3">35.2%</div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-xs text-slate-500">Net Income</div>
+                      <div className="w-12 h-px bg-slate-600 my-1"></div>
+                      <div className="text-xs text-slate-500 mb-2">Revenue</div>
+                      <div className="text-sm font-medium text-slate-300">7,500 / 21,300</div>
+                    </div>
+                  </div>
+                  
+                  <div className="text-center bg-slate-800/50 rounded-lg p-4">
+                    <div className="text-sm font-medium text-slate-300 mb-2">Asset Turnover</div>
+                    <div className="text-xl font-bold text-yellow-400 mb-3">0.64x</div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-xs text-slate-500">Revenue</div>
+                      <div className="w-12 h-px bg-slate-600 my-1"></div>
+                      <div className="text-xs text-slate-500 mb-2">Total Assets</div>
+                      <div className="text-sm font-medium text-slate-300">21,300 / 33,280</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Separator */}
+                <div className="flex items-center justify-center w-full mb-6">
+                  <div className="w-1/3 h-px bg-slate-700"></div>
+                  <div className="mx-3 text-slate-500 font-medium">×</div>
+                  <div className="w-1/3 h-px bg-slate-700"></div>
+                </div>
+
+                {/* Detail Metrics */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl">
+                  <div className="text-center bg-slate-800/30 rounded-lg p-3">
+                    <div className="text-sm font-medium text-slate-300 mb-1">Operating Margin</div>
+                    <div className="text-lg font-bold text-purple-400 mb-2">42.5%</div>
+                    <div className="text-xs text-slate-500">9,052 / 21,300</div>
+                  </div>
+                  
+                  <div className="text-center bg-slate-800/30 rounded-lg p-3">
+                    <div className="text-sm font-medium text-slate-300 mb-1">Tax Burden</div>
+                    <div className="text-lg font-bold text-orange-400 mb-2">82.8%</div>
+                    <div className="text-xs text-slate-500">7,500 / 9,052</div>
+                  </div>
+                  
+                  <div className="text-center bg-slate-800/30 rounded-lg p-3">
+                    <div className="text-sm font-medium text-slate-300 mb-1">Financial Leverage</div>
+                    <div className="text-lg font-bold text-pink-400 mb-2">1.56x</div>
+                    <div className="text-xs text-slate-500">33,280 / 21,330</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Features Grid */}
