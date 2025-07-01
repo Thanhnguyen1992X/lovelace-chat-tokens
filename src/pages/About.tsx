@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircle, Zap, Shield, Headphones, Brain, Smartphone, MoreHorizontal, TrendingUp } from 'lucide-react';
+import { MessageCircle, Zap, Shield, Headphones, Brain, Smartphone, MoreHorizontal, TrendingUp, AlertTriangle, TrendingDown } from 'lucide-react';
 import Header from '@/components/Header';
 
 const About = () => {
@@ -65,9 +65,10 @@ const About = () => {
           </Button>
         </div>
 
-        {/* DuPont Analysis Section */}
-        <div className="mb-16">
-          <Card className="bg-slate-900 border-slate-800 max-w-4xl mx-auto">
+        {/* Financial Analysis Section */}
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {/* DuPont Analysis */}
+          <Card className="bg-slate-900 border-slate-800">
             <CardHeader className="flex flex-row items-center justify-between">
               <div className="flex items-center space-x-3">
                 <TrendingUp className="w-6 h-6 text-blue-400" />
@@ -93,7 +94,7 @@ const About = () => {
                 </div>
 
                 {/* Main Metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6 w-full max-w-2xl">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 w-full">
                   <div className="text-center bg-slate-800/50 rounded-lg p-4">
                     <div className="text-sm font-medium text-slate-300 mb-2">Net Profit Margin</div>
                     <div className="text-xl font-bold text-green-400 mb-3">35.2%</div>
@@ -125,7 +126,7 @@ const About = () => {
                 </div>
 
                 {/* Detail Metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-3xl">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                   <div className="text-center bg-slate-800/30 rounded-lg p-3">
                     <div className="text-sm font-medium text-slate-300 mb-1">Operating Margin</div>
                     <div className="text-lg font-bold text-purple-400 mb-2">42.5%</div>
@@ -142,6 +143,160 @@ const About = () => {
                     <div className="text-sm font-medium text-slate-300 mb-1">Financial Leverage</div>
                     <div className="text-lg font-bold text-pink-400 mb-2">1.56x</div>
                     <div className="text-xs text-slate-500">33,280 / 21,330</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Currency Flow Analysis */}
+          <Card className="bg-slate-900 border-slate-800">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <TrendingDown className="w-6 h-6 text-green-400" />
+                <CardTitle className="text-xl text-white">Phân tích dòng tiền tệ</CardTitle>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs text-slate-400">Q2/2024</span>
+                <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white">
+                  <MoreHorizontal className="w-5 h-5" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="p-6">
+              {/* Chart Placeholder */}
+              <div className="h-32 bg-slate-800/30 rounded-lg mb-6 flex items-center justify-center">
+                <div className="text-center">
+                  <TrendingUp className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+                  <span className="text-sm text-slate-400">Currency Flow Chart</span>
+                </div>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">Tổng dòng tiền vào:</span>
+                  <span className="font-medium text-green-400">+2,850 tỷ VND</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">Tổng dòng tiền ra:</span>
+                  <span className="font-medium text-red-400">-1,250 tỷ VND</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">Dòng tiền ròng:</span>
+                  <span className="font-medium text-blue-400">+1,600 tỷ VND</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Trading Signals Section */}
+        <div className="mb-16">
+          <Card className="bg-slate-900 border-slate-800 max-w-4xl mx-auto">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <AlertTriangle className="w-6 h-6 text-red-400" />
+                <CardTitle className="text-xl text-white">Tín hiệu giao dịch</CardTitle>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs text-slate-400">20/06/2025</span>
+                <Button variant="ghost" size="sm" className="text-slate-400 hover:text-white">
+                  <MoreHorizontal className="w-5 h-5" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="p-6">
+              {/* Alert Signal */}
+              <div className="bg-red-900/30 border border-red-800 rounded-lg p-4 mb-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <AlertTriangle className="w-6 h-6 text-red-400 mr-3" />
+                    <span className="text-sm font-medium text-red-300">Tín hiệu bán</span>
+                  </div>
+                  <span className="text-xs text-red-300 font-medium">RSI quá mua</span>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                {/* Technical Indicators */}
+                <div>
+                  <h3 className="text-sm font-medium text-white mb-3">Chỉ báo kỹ thuật</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="flex items-center justify-between bg-slate-800/50 p-2 rounded">
+                      <span className="text-xs text-slate-400">RSI (14)</span>
+                      <span className="text-xs font-medium text-red-400">72.5</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-slate-800/50 p-2 rounded">
+                      <span className="text-xs text-slate-400">MACD</span>
+                      <span className="text-xs font-medium text-green-400">Tăng</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-slate-800/50 p-2 rounded">
+                      <span className="text-xs text-slate-400">MA (20)</span>
+                      <span className="text-xs font-medium text-green-400">Trên</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-slate-800/50 p-2 rounded">
+                      <span className="text-xs text-slate-400">MA (50)</span>
+                      <span className="text-xs font-medium text-green-400">Trên</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-slate-800/50 p-2 rounded">
+                      <span className="text-xs text-slate-400">Bollinger</span>
+                      <span className="text-xs font-medium text-red-400">Trên dải</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-slate-800/50 p-2 rounded">
+                      <span className="text-xs text-slate-400">Stochastic</span>
+                      <span className="text-xs font-medium text-red-400">Quá mua</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Support & Resistance */}
+                <div>
+                  <h3 className="text-sm font-medium text-white mb-3">Mức hỗ trợ & kháng cự</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-red-400">Kháng cự 2</span>
+                      <span className="font-medium text-slate-300">21,500đ</span>
+                      <span className="text-slate-500">+11.7%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-red-400">Kháng cự 1</span>
+                      <span className="font-medium text-slate-300">20,200đ</span>
+                      <span className="text-slate-500">+4.9%</span>
+                    </div>
+                    <div className="flex items-center justify-between font-medium text-xs">
+                      <span className="text-blue-400">Giá hiện tại</span>
+                      <span className="text-blue-400">19,250đ</span>
+                      <span className="text-blue-400">0.0%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-green-400">Hỗ trợ 1</span>
+                      <span className="font-medium text-slate-300">18,400đ</span>
+                      <span className="text-slate-500">-4.4%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-green-400">Hỗ trợ 2</span>
+                      <span className="font-medium text-slate-300">17,500đ</span>
+                      <span className="text-slate-500">-9.1%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recommendations */}
+                <div>
+                  <h3 className="text-sm font-medium text-white mb-3">Khuyến nghị</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 mt-1.5 flex-shrink-0"></div>
+                      <span className="text-xs text-slate-300">Chốt lời một phần ở vùng giá hiện tại</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 mt-1.5 flex-shrink-0"></div>
+                      <span className="text-xs text-slate-300">Đặt stop loss ở mức 18,400đ</span>
+                    </div>
+                    <div className="flex items-start">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 mt-1.5 flex-shrink-0"></div>
+                      <span className="text-xs text-slate-300">Theo dõi khối lượng giao dịch trong phiên tới</span>
+                    </div>
                   </div>
                 </div>
               </div>
